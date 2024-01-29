@@ -1,34 +1,32 @@
-// SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.9;
+//SPDX-License-Identifier:MIT
 
-// Uncomment this line to use console.log
-// import "hardhat/console.sol";
+pragma solidity ^0.8.19;
 
-contract Lock {
-    uint public unlockTime;
-    address payable public owner;
+import "@account-abstraction/contracts/core/EntryPoint.sol";
+import "@account-abstraction/contracts/interfaces/IAccount.sol";
 
-    event Withdrawal(uint amount, uint when);
 
-    constructor(uint _unlockTime) payable {
-        require(
-            block.timestamp < _unlockTime,
-            "Unlock time should be in the future"
-        );
+contract Account is IAccount{
 
-        unlockTime = _unlockTime;
-        owner = payable(msg.sender);
+    address public owner;
+    uint256 public count;
+
+    constructor(address _owner){
+        owner=_owner;
     }
 
-    function withdraw() public {
-        // Uncomment this line, and the import of "hardhat/console.sol", to print a log in your terminal
-        // console.log("Unlock time is %o and block timestamp is %o", unlockTime, block.timestamp);
+    function validateUserOp(UserOperation calldata , bytes32 , uint256 )
+    external pure returns (uint256 validationData){
+        return 0;
+    }
+    function execute()external{
+        count++;
+    }
+}
 
-        require(block.timestamp >= unlockTime, "You can't withdraw yet");
-        require(msg.sender == owner, "You aren't the owner");
-
-        emit Withdrawal(address(this).balance, block.timestamp);
-
-        owner.transfer(address(this).balance);
+contract AccountFactory{
+    function createAccount(address _owner)public returns(address){
+        Account newAccount=new Account(_owner);
+        return address(newAccount);
     }
 }

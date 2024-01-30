@@ -9,10 +9,17 @@ const hre = require("hardhat");
 async function main() {
 
   const accountFactory = await hre.ethers.deployContract("AccountFactory");
-
   await accountFactory.waitForDeployment();
 
+  const ep = await hre.ethers.deployContract("EntryPoint");
+  await ep.waitForDeployment();
+
+  const paymaster = await hre.ethers.deployContract("Paymaster");
+  await paymaster.waitForDeployment();
+
+  console.log("EP deployed at:", ep.target);
   console.log("accountFactory address:", accountFactory.target);
+  console.log("PaymasterAddress:", paymaster.target);
 }
 
 // We recommend this pattern to be able to use async/await everywhere

@@ -9,10 +9,10 @@ async function main() {
     const count = await smartAcc.count(); //checking whether userOp was executed successfully
     console.log(count);
 
-    console.log("Smart account balance:", await hre.ethers.provider.getBalance(smartAcc));
-    const epContract = await hre.ethers.getContractAt("EntryPoint", EP_ADDRESS);
-    console.log("EntryPoint balance:", await epContract.balanceOf(EP_ADDRESS));
-    console.log("Paymaster Balance:", await epContract.balanceOf(PM_ADDRESS));
+    // console.log("Smart account balance:", await hre.ethers.provider.getBalance(smartAcc));
+    // const epContract = await hre.ethers.getContractAt("EntryPoint", EP_ADDRESS);
+    // console.log("EntryPoint balance:", await epContract.balanceOf(EP_ADDRESS));
+    // console.log("Paymaster Balance:", await epContract.balanceOf(PM_ADDRESS));
 }
 
 main().catch((e) => {
